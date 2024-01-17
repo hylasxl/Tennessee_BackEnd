@@ -10,19 +10,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // course.hasMany(models.class)
-      // course.hasOne(models.course_image)
-      // course.hasMany(models.lecturer_timetable)
-      // course.hasMany(models.student_timetable)
+      // course.hasMany(models.__class)
+      // course.belongsTo(models.course_image,{foreignKey: 'imageID'})
+      // course.hasMany(models.lesson)
     }
   }
   course.init({
     courseName: DataTypes.STRING,
-    languageID: DataTypes.INTEGER,
+    languageId: DataTypes.INTEGER,
     duration: DataTypes.INTEGER,
     durationofEachLesson: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
-    imageID: DataTypes.INTEGER,
+    imageId: DataTypes.INTEGER,
     createdBy: DataTypes.INTEGER,
     approveStatus: DataTypes.INTEGER,
     approvedBy: DataTypes.INTEGER,

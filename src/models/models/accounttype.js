@@ -11,7 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // accountType.hasOne(models.accounts)
-      // accountType.belongsToMany(models.permissions,{through: models.permissions_accountType})
+      accountType.hasMany(models.account)
+      accountType.belongsToMany(models.permissions,{through: 'permissions_accounttype'})
+      
     }
   }
   accountType.init({

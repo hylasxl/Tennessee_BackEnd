@@ -10,16 +10,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // __class.belongsToMany(models.accounts,{through: models.academic_transcript})
-      // __class.belongsToMany(models.accounts,{through: models.class_attendance})
-      // __class.belongsToMany(models.accounts,{through: models.student_absence_request})
+      // __class.belongsToMany(models.accounts, { through: models.academic_transcript })
+      // __class.belongsToMany(models.accounts, { through: models.class_attendance })
+      // __class.belongsToMany(models.accounts, { through: models.student_absence_request })
       // __class.hasMany(models.academic_transcript)
-      // __class.belongsToMany(models.room,{through: models.class_schedule})
-      // __class.belongsToMany(models.room,{through: models.room_timesheet})
-      // __class.belongsToMany(models.accounts,{thorugh: models.class_student_list})
-      // __class.belongsTo(models.couse)
-      // __class.hasMany(models.lecturer_timetable)
-      // __class.hasMany(models.student_timetable)
+      // __class.belongsToMany(models.room, { through: models.class_schedule })
+      // __class.belongsToMany(models.accounts, { through: models.class_student_list })
+      // __class.belongsTo(models.course, { foreignKey: 'courseID' })
+      // __class.belongsTo(models.lecturer_timetable)
+      // __class.belongsTo(models.student_timetable)
+      // __class.hasMany(models.room_timesheet)
+      // __class.hasMany(models.room)
     }
   }
   __class.init({
@@ -35,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'class',
+    modelName: '__class',
   });
   return __class;
 };

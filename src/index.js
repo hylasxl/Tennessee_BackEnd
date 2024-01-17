@@ -4,6 +4,9 @@ import initWebRoutes from "./routes/web";
 require("dotenv").config();
 import connection from "./config/connectDB";
 import initApis from "./routes/api";
+import cookieParser from "cookie-parser";
+
+import {createJWT} from './middleware/JWTMethod'
 
 // const bodyParser = require('body-parser')
 
@@ -20,20 +23,19 @@ app.use(function (req, res, next) {
 
 app.use(express.json())
 app.use(express.urlencoded());
-
+app.use(cookieParser())
 
 configViewEngine(app);
 initWebRoutes(app);
 initApis(app);
 
 
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({extended: true}))
+
 
 connection();
 
 
 
 app.listen(PORT, ()=>{
-    
+
 })

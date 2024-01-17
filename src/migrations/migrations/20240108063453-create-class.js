@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      courseID: {
+      courseId: {
         type: Sequelize.INTEGER
       },
       className: {
@@ -24,7 +24,7 @@ module.exports = {
       endDate: {
         type: Sequelize.DATEONLY
       },
-      lecturerID: {
+      lecturerId: {
         type: Sequelize.INTEGER
       },
       maxQuantity: {

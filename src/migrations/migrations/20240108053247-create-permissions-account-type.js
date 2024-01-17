@@ -2,17 +2,17 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('permissions_accountTypes', {
+    await queryInterface.createTable('permissions_accounttypes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      accountType: {
+      accountTypeId: {
         type: Sequelize.INTEGER
       },
-      permissionID: {
+      permissionId: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -28,6 +28,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('permissions_accountTypes');
+    await queryInterface.dropTable('permissions_accounttypes');
   }
 };

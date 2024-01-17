@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // class_schedule.belongsTo(models.__class)
+      // class_schedule.belongsTo(models.__class,{foreignKey: 'classID'})
       
     }
   }

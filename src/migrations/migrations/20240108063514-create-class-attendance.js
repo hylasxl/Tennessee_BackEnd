@@ -9,16 +9,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      classID: {
+      classId: {
         type: Sequelize.INTEGER
       },
       orderofLesson: {
         type: Sequelize.INTEGER
       },
-      studentID: {
-        type: Sequelize.INTEGER
-      },
-      lecturerID: {
+      studentId: {
         type: Sequelize.INTEGER
       },
       date: {

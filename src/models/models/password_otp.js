@@ -14,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   password_otp.init({
-    accountID: DataTypes.INTEGER,
+    accountId: DataTypes.INTEGER,
     otp: DataTypes.INTEGER,
-    expiredAt: DataTypes.DATEONLY,
+    expiredAt: DataTypes.DATE,
     status: DataTypes.STRING
   }, {
     sequelize,

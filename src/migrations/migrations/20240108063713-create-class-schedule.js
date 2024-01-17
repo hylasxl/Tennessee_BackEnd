@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      classID: {
+      classId: {
         type: Sequelize.INTEGER
       },
       orderofLesson: {
@@ -24,7 +24,7 @@ module.exports = {
       timeEnd: {
         type: Sequelize.TIME
       },
-      roomID: {
+      roomId: {
         type: Sequelize.INTEGER
       },
       createdAt: {

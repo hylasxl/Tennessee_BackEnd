@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   lecturer_academic_level.init({
-    lecturerID: DataTypes.INTEGER,
-    academicLevelID: DataTypes.INTEGER
+    lecturerId: DataTypes.INTEGER,
+    academic_levelId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'lecturer_academic_level',

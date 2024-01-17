@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   student_absence_request.init({
-    studentID: DataTypes.INTEGER,
-    classID: DataTypes.INTEGER,
+    studentId: DataTypes.INTEGER,
+    classId: DataTypes.INTEGER,
     fromDate: DataTypes.DATEONLY,
     toDate: DataTypes.DATEONLY,
     reason: DataTypes.STRING,

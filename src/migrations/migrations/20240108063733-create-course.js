@@ -12,7 +12,7 @@ module.exports = {
       courseName: {
         type: Sequelize.STRING
       },
-      languageID: {
+      languageId: {
         type: Sequelize.INTEGER
       },
       duration: {
@@ -24,7 +24,7 @@ module.exports = {
       price: {
         type: Sequelize.INTEGER
       },
-      imageID: {
+      imageId: {
         type: Sequelize.INTEGER
       },
       createdBy: {

@@ -10,14 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // class_attendance.belongsTo(models.__class)
+      // class_attendance.belongsTo(models.__class,{foreignKey:'classID'})
     }
   }
   class_attendance.init({
-    classID: DataTypes.INTEGER,
+    classId: DataTypes.INTEGER,
     orderofLesson: DataTypes.INTEGER,
-    studentID: DataTypes.INTEGER,
-    lecturerID: DataTypes.INTEGER,
+    studentId: DataTypes.INTEGER,
+    lecturerId: DataTypes.INTEGER,
     date: DataTypes.DATEONLY,
     status: DataTypes.INTEGER
   }, {

@@ -10,11 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // permissions.belongsToMany(models.accountType,{through: models.permissions_accountType})
+      permissions.belongsToMany(models.accountType,{through: 'permissions_accounttype'})
     }
   }
   permissions.init({
-    accountType: DataTypes.INTEGER,
     url: DataTypes.STRING
   }, {
     sequelize,

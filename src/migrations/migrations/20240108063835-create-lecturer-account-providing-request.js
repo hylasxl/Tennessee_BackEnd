@@ -27,10 +27,10 @@ module.exports = {
       gender: {
         type: Sequelize.STRING
       },
-      languageID: {
+      languageId: {
         type: Sequelize.INTEGER
       },
-      academicLevelID: {
+      academic_levelId: {
         type: Sequelize.INTEGER
       },
       approveStatus: {

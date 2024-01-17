@@ -9,9 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      accountType: {
-        type: Sequelize.INTEGER
-      },
       url: {
         type: Sequelize.STRING
       },

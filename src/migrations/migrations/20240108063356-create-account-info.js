@@ -33,7 +33,7 @@ module.exports = {
       address: {
         type: Sequelize.STRING
       },
-      imageID: {
+      imageId: {
         type: Sequelize.INTEGER
       },
       createdAt: {

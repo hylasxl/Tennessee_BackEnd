@@ -10,12 +10,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // room_timesheet.belongsTo(models.room,{foreignKey:'roomID'})
+      // room_timesheet.belongsTo(models.__class,{foreignKey:'classID'})
     }
   }
   room_timesheet.init({
-    roomID: DataTypes.INTEGER,
-    classID: DataTypes.INTEGER,
+    roomId: DataTypes.INTEGER,
+    classId: DataTypes.INTEGER,
     orderofLesson: DataTypes.INTEGER,
     date: DataTypes.DATEONLY,
     timeStart: DataTypes.TIME,

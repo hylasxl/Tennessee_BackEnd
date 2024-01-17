@@ -10,13 +10,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // lecturer_language.belongsTo(models.accounts)
-      // lecturer_language.belongsTo(models.language)
+      // lecturer_language.belongsTo(models.accounts,{foreignKey:'lecturerID'})
+      // lecturer_language.belongsTo(models.language,{foreignKey:'languageID'})
     }
   }
   lecturer_language.init({
-    lecturerID: DataTypes.INTEGER,
-    languageID: DataTypes.INTEGER
+    lecturerId: DataTypes.INTEGER,
+    languageId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'lecturer_language',

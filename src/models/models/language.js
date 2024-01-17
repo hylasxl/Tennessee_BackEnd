@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // language.hasOne(models.lecturer_language)
+      // language.hasMany(models.lecturer_language)
+      // language.hasMany(models.lecturer_account_providing_request)
     }
   }
   language.init({

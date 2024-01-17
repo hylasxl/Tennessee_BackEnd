@@ -10,19 +10,19 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // student_timetable.belongsTo(models.course)
-      // student_timetable.belongsTo(models.class)
-      // student_timetable.belongsTo(models.room)
+      // student_timetable.hasOne(models.accounts,{foreignKey:'studentID'})
+      // student_timetable.hasOne(models.__class,{foreignKey:'classID'})
+      // student_timetable.hasOne(models.room,{foreignKey:'roomID'})
     }
   }
   student_timetable.init({
-    studentID: DataTypes.INTEGER,
-    classID: DataTypes.INTEGER,
+    studentId: DataTypes.INTEGER,
+    classId: DataTypes.INTEGER,
     orderofLesson: DataTypes.INTEGER,
     date: DataTypes.DATEONLY,
     timeStart: DataTypes.TIME,
     timeEnd: DataTypes.TIME,
-    roomID: DataTypes.INTEGER
+    roomId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'student_timetable',

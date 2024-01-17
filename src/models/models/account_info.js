@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // account_info.hasOne(models.account_info_image)
-      // account_info.belongsTo(models.accounts)
+      // account_info.belongsTo(models.accounts,{foreignKey:'accountID'})
     }
   }
   account_info.init({
-    accountID: DataTypes.INTEGER,
+    accountId: DataTypes.INTEGER,
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     dateofBirth: DataTypes.DATEONLY,
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     phone: DataTypes.STRING,
     email: DataTypes.STRING,
     address: DataTypes.STRING,
-    imageID: DataTypes.INTEGER
+    imageId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'account_info',

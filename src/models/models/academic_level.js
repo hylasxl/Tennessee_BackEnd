@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // academic_level.belongsToMany(models.accounts,{through: models.lecturer_academic_level})
+      //academic_level.belongsToMany(models.accounts,{through: models.lecturer_academic_level})
+      // academic_level.hasOne(models.lecturer_account_providing_request);
     }
   }
   academic_level.init({

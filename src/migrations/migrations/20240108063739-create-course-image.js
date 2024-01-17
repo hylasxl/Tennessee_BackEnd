@@ -9,9 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      courseID: {
-        type: Sequelize.INTEGER
-      },
       imagePath: {
         type: Sequelize.STRING
       },

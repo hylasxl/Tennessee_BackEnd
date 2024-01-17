@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // account_info_image.belongsTo(models.account_info)
+      //account_info_image.belongsTo(models.account_info,{foreignKey:'accountID'})
     }
   }
   account_info_image.init({
-    accountID: DataTypes.INTEGER,
+    accountId: DataTypes.INTEGER,
     imagePath: DataTypes.STRING
   }, {
     sequelize,

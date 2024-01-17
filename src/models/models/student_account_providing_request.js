@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // student_account_providing_request.belongsTo(models.accounts)
+      // student_account_providing_request.belongsTo(models.accounts,{foreignKey:'requestCreatedBy'})
+      // student_account_providing_request.belongsTo(models.accounts,{foreignKey:'confirmedBy'})
     }
   }
   student_account_providing_request.init({
