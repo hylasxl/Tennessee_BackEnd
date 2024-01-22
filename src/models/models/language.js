@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // language.hasMany(models.lecturer_language)
       // language.hasMany(models.lecturer_account_providing_request)
+      language.hasMany(models.course)
     }
   }
   language.init({

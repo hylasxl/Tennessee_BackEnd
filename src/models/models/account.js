@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // accounts.belongsToMany(models.__class, { through: models.academic_transcript })
-      // accounts.hasOne(models.account_info)
-      account.belongsTo(models.accountType, { foreignKey: 'accountTypeId' })
+      account.hasOne(models.account_info)
+      account.belongsTo(models.accountType)
       // accounts.belongsToMany(models.__class, { through: models.class_student_list })
       // accounts.belongsToMany(models.__class, { through: models.student_absence_request })
       // accounts.hasMany(models.lecturer_account_providing_request)
@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
       // accounts.belongsToMany(models.academic_level, { through: models.lecturer_academic_level })
       // accounts.hasMany(models.password_otp)
       // accounts.hasMany(models.student_account_providing_request)
-
     }
   }
   account.init({

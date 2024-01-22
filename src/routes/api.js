@@ -1,4 +1,4 @@
-import express from "express";
+import express, { application } from "express";
 import apiController from "../controller/apiController"
 import { checkJWTbyCookie, checkUserPermission } from '../middleware/JWTMethod'
 
@@ -17,6 +17,11 @@ const initApis = (app) => {
     router.get('/user/getaccount', checkJWTbyCookie, checkUserPermission, apiController.getOneUserAccount)
     router.put('/user/update', checkJWTbyCookie, checkUserPermission, apiController.updateUserData)
     router.put('/user/changepassword', checkJWTbyCookie, checkUserPermission, apiController.changePassword )
+
+    router.get('/admin/get-all-account',checkJWTbyCookie, checkUserPermission,apiController.fetchAllUser)
+    router.post('/admin/get-one-account',checkJWTbyCookie, checkUserPermission,apiController.fetchOneUser)
+
+    router.get('/edu/get-all-course',checkJWTbyCookie, checkUserPermission,apiController.fetchAllCourse)
 
     return app.use("/api/", router);
 

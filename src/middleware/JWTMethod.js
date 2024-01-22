@@ -29,6 +29,7 @@ const checkJWTbyCookie = (req, res, next) => {
     if (nonSecurePaths.includes(req.path)) {
         return next()
     }
+    console.log("Checking token: ",req.path);
     let cookies = req.cookies
     if (cookies && cookies.jwt) {
         
@@ -46,7 +47,6 @@ const checkJWTbyCookie = (req, res, next) => {
             }
         }
 
-       
         
     } else {
         return {
@@ -59,10 +59,11 @@ const checkJWTbyCookie = (req, res, next) => {
 
 
 const checkUserPermission = (req, res, next) => {
-    console.log(req.path);
+    
     if (nonSecurePaths.includes(req.path)) {
         next()
     }
+    console.log("Checking user permissions: ",req.path);
     if (req.user) {
         let username = req.user.username
         let permission = req.user.userPermissions.permissions
@@ -81,21 +82,23 @@ const checkUserPermission = (req, res, next) => {
         try{
             isAuthorized = permission.some(item => item.url === currentURL)
         } catch {
-            return {
-                EC: -1,
+            
+                res.status(401).json({
+                    EC: -1,
                 DT: '',
                 EM: `You don't have permission to access this URL: ${currentURL}`
-            }
+                })
+            
         }
         
         if (isAuthorized === true) {
             return next()
         } else {
-            return {
+            res.status(401).json({
                 EC: -1,
-                DT: '',
-                EM: `You don't have permission to access this URL: ${currentURL}`
-            }
+            DT: '',
+            EM: `You don't have permission to access this URL: ${currentURL}`
+            })
         }
 
     } else {

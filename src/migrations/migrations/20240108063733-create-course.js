@@ -16,10 +16,10 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       duration: {
-        type: Sequelize.INTEGER
+        type: Sequelize.TIME
       },
       durationofEachLesson: {
-        type: Sequelize.INTEGER
+        type: Sequelize.TIME
       },
       price: {
         type: Sequelize.INTEGER
@@ -31,7 +31,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       approveStatus: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       approvedBy: {
         type: Sequelize.INTEGER

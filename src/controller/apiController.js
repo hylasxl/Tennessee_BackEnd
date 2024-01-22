@@ -1,9 +1,10 @@
-
-import loginService from '../service/loginService'
-import accountService from '../service/accountService'
 import db from '../models/models/index'
 import { getAccountTypewPermissions } from '../service/JWTService'
 import { createJWT } from '../middleware/JWTMethod'
+
+import loginService from '../service/loginService'
+import accountService from '../service/accountService'
+import courseService from '../service/courseService'
 
 const handleLogin = async (req, res) => {
     try {
@@ -103,10 +104,10 @@ const updateUserData = async (req, res) => {
     }
 }
 
-const changePassword = async(req,res)=>{
-    try{
+const changePassword = async (req, res) => {
+    try {
         const data = await accountService.changePassword(req.body)
-        if(data === 1){
+        if (data === 1) {
             res.status(200).json({
                 EC: 1,
                 EM: 'Password is changed successfully',
@@ -128,11 +129,96 @@ const changePassword = async(req,res)=>{
     }
 }
 
+const fetchAllUser = async (req, res) => {
+    try {
+        const data = await accountService.fetchAllUserData()
+        if (data === "Error") {
+            res.status(500).json({
+                EC: -1,
+                EM: 'Cannot fetch user',
+                DT: ''
+            })
+        } else {
+            res.status(200).json({
+                EC: 1,
+                EM: 'Fetch user successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'Cannot fetch user',
+            DT: ''
+        })
+    }
+}
+
+
+const fetchOneUser = async (req, res) => {
+    try {
+        const username = req.body.username
+        console.log(username);
+        const data = await accountService.fetchOneUserData(username)
+        if (data === "Error") {
+            res.status(500).json({
+                EC: -1,
+                EM: 'Cannot fetch user',
+                DT: ''
+            })
+        } else {
+            res.status(200).json({
+                EC: 1,
+                EM: 'Fetch user successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'Cannot fetch user',
+            DT: ''
+        })
+    }
+}
+
+
+const fetchAllCourse = async (req, res) => {
+    try {
+        
+        const data = await courseService.fetchAllCourses()
+        // console.log(data);
+        // console.log(new Set(data));
+        if (data === "Error") {
+            res.status(500).json({
+                EC: -1,
+                EM: 'Cannot fetch course',
+                DT: ''
+            })
+        } else {
+            res.status(200).json({
+                EC: 1,
+                EM: 'Fetch course successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'Cannot fetch course',
+            DT: ''
+        })
+    }
+}
+
 module.exports = {
     handleLogin,
     getOneUserData,
     getOneUserAccount,
     handleLogout,
     updateUserData,
-    changePassword
+    changePassword,
+    fetchAllUser,
+    fetchOneUser,
+    fetchAllCourse,
 }
