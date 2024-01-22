@@ -5,6 +5,7 @@ import { createJWT } from '../middleware/JWTMethod'
 import loginService from '../service/loginService'
 import accountService from '../service/accountService'
 import courseService from '../service/courseService'
+import languageService from '../service/languageService'
 
 const handleLogin = async (req, res) => {
     try {
@@ -211,6 +212,34 @@ const fetchAllCourse = async (req, res) => {
     }
 }
 
+const getAllLanguages = async (req,res)=>{
+    try {
+        
+        const data = await languageService.handleGetAllLanguages()
+        // console.log(data);
+        // console.log(new Set(data));
+        if (data === "Error") {
+            res.status(500).json({
+                EC: -1,
+                EM: 'Cannot fetch course',
+                DT: ''
+            })
+        } else {
+            res.status(200).json({
+                EC: 1,
+                EM: 'Fetch course successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'Cannot fetch course',
+            DT: ''
+        })
+    }
+}
+
 module.exports = {
     handleLogin,
     getOneUserData,
@@ -221,4 +250,5 @@ module.exports = {
     fetchAllUser,
     fetchOneUser,
     fetchAllCourse,
+    getAllLanguages
 }
