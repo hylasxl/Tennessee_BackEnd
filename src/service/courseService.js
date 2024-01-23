@@ -1,4 +1,3 @@
-import { raw } from "body-parser";
 import db from "../models/models/index"
 
 const fetchAllCourses = async () => {

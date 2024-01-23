@@ -22,6 +22,7 @@ const initApis = (app) => {
     router.post('/admin/get-one-account',checkJWTbyCookie, checkUserPermission,apiController.fetchOneUser)
 
     router.get('/edu/get-all-course',checkJWTbyCookie, checkUserPermission,apiController.fetchAllCourse)
+    router.get('/language/get-all-language',checkJWTbyCookie,checkUserPermission,apiController.getAllLanguages)
 
     return app.use("/api/", router);
 

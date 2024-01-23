@@ -17,9 +17,11 @@ const checkPassword = (password, hashedPassword) => {
 
 const userLogin = async (rawData) => {
     try {
-        let user = await db.account.findOne({where: {username : rawData.username}})
-        const dbPassword = user.dataValues.password
         
+        let user = await db.account.findOne({where: {username : rawData.username}})
+        // console.log(user);
+        const dbPassword = user.dataValues.password
+        // console.log(dbPassword);
         if (user) {
             // console.log(user.dataValues);
             let isCorrectPassword = checkPassword(rawData.password, dbPassword);
@@ -69,7 +71,7 @@ const userLogin = async (rawData) => {
                 }
             
         } else {
-            console.log("User not found")
+            console.log("User not found -1")
             return {
                 EM: "User not found",
                 EC: "-1",
@@ -78,7 +80,7 @@ const userLogin = async (rawData) => {
             }
         }
     } catch(e) {
-            console.log("User not found")
+            console.log("User not found -2")
             return {
                 EM: "User not found",
                 EC: "-1",
