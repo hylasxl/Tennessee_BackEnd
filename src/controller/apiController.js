@@ -6,6 +6,7 @@ import loginService from '../service/loginService'
 import accountService from '../service/accountService'
 import courseService from '../service/courseService'
 import languageService from '../service/languageService'
+import classService from '../service/classService'
 
 const handleLogin = async (req, res) => {
     try {
@@ -240,6 +241,106 @@ const getAllLanguages = async (req,res)=>{
     }
 }
 
+const createCourse = async(req,res)=>{
+    try {
+        const data = await courseService.handleCreateCourse(req.body)
+        if (data === "Error") {
+            res.status(500).json({
+                EC: -1,
+                EM: 'Cannot create course',
+                DT: ''
+            })
+        } else {
+            res.status(200).json({
+                EC: 1,
+                EM: 'Create course successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'Cannot create course',
+            DT: ''
+        })
+    }
+}
+
+const courseApproval = async(req,res)=>{
+    try {
+        const data = await courseService.courseApproval(req.body)
+        if (data === "Error") {
+            res.status(500).json({
+                EC: -1,
+                EM: '',
+                DT: ''
+            })
+        } else {
+            res.status(200).json({
+                EC: 1,
+                EM: '',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'Error occured',
+            DT: ''
+        })
+    }
+}
+
+const fetchAllClass = async (req,res) => {
+    try {
+        const data = await classService.fetchAllClass()
+        if (data === "Error") {
+            res.status(500).json({
+                EC: -1,
+                EM: 'Cannot fetch classes',
+                DT: ''
+            })
+        } else {
+            res.status(200).json({
+                EC: 1,
+                EM: 'Fetch classes successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'Cannot fetch classes',
+            DT: ''
+        })
+    }
+}
+
+const fetchAccountByType = async(req,res) => {
+    try {
+        const data = await accountService.fetchAccountByType(req.body)
+        if (data === "Error") {
+            res.status(500).json({
+                EC: -1,
+                EM: 'Cannot fetch accounts',
+                DT: ''
+            })
+        } else {
+            res.status(200).json({
+                EC: 1,
+                EM: 'Fetch accounts successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'Cannot fetch accounts',
+            DT: ''
+        })
+    }
+}
+
 module.exports = {
     handleLogin,
     getOneUserData,
@@ -250,5 +351,9 @@ module.exports = {
     fetchAllUser,
     fetchOneUser,
     fetchAllCourse,
-    getAllLanguages
+    getAllLanguages,
+    createCourse,
+    courseApproval,
+    fetchAllClass,
+    fetchAccountByType
 }

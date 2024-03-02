@@ -20,8 +20,13 @@ const initApis = (app) => {
 
     router.get('/admin/get-all-account',checkJWTbyCookie, checkUserPermission,apiController.fetchAllUser)
     router.post('/admin/get-one-account',checkJWTbyCookie, checkUserPermission,apiController.fetchOneUser)
+    router.post('/admin/course/approval',checkJWTbyCookie, checkUserPermission,apiController.courseApproval)
 
     router.get('/edu/get-all-course',checkJWTbyCookie, checkUserPermission,apiController.fetchAllCourse)
+    router.post('/edu/create-course',checkJWTbyCookie,checkUserPermission,apiController.createCourse)
+    router.get('/edu/get-all-class',checkJWTbyCookie,checkUserPermission,apiController.fetchAllClass)
+    router.post('/get-account-by-type',checkJWTbyCookie,checkUserPermission,apiController.fetchAccountByType)
+
     router.get('/language/get-all-language',checkJWTbyCookie,checkUserPermission,apiController.getAllLanguages)
 
     return app.use("/api/", router);

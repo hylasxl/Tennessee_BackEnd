@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       course.belongsTo(models.course_image, { foreignKey: 'imageId' })
       course.belongsTo(models.account_info, { foreignKey: 'createdBy', as: 'createdByAccount' })
       course.belongsTo(models.account_info, { foreignKey: 'approvedBy', as :'approvedByAccount' })
+      course.hasMany(models.class, {foreignKey: 'courseId'})
     }
   }
   course.init({

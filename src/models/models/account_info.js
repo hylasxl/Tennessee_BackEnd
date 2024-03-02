@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       account_info.belongsTo(models.account)
       // account_info.hasMany(models.course, {foreignKey: 'approvedBy'})
       // account_info.hasMany(models.course, {foreignKey: 'createdBy'})
+      
     }
   }
   account_info.init({

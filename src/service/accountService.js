@@ -60,15 +60,15 @@ const changePassword = async (reqData) => {
 const fetchAllUserData = async () => {
     try {
         const userData = db.account.findAll({
-            attributes: ['id','accountState','username'],
+            attributes: ['id', 'accountState', 'username'],
             include: [{
                 model: db.account_info,
-                attributes: {exclude:['id','createdAt','updatedAt']}
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
             }, {
                 model: db.accountType,
-                attributes : ['id','typeName']
+                attributes: ['id', 'typeName']
             }],
-            nest:false
+            nest: false
         },
 
         )
@@ -78,17 +78,17 @@ const fetchAllUserData = async () => {
     }
 }
 
-const fetchOneUserData = async(username)=>{
+const fetchOneUserData = async (username) => {
     try {
         const userData = db.account.findOne({
-            attributes: ['id','accountState','username'],
-            where :  { username : username },
+            attributes: ['id', 'accountState', 'username'],
+            where: { username: username },
             include: [{
                 model: db.account_info,
-                attributes: {exclude:['id','createdAt','updatedAt']}
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
             }, {
                 model: db.accountType,
-                attributes : ['id','typeName']
+                attributes: ['id', 'typeName']
             }],
         },
 
@@ -99,10 +99,37 @@ const fetchOneUserData = async(username)=>{
     }
 }
 
-module.exports = { 
-    getOneUserData, 
-    updateData, 
-    changePassword, 
-    fetchAllUserData, 
-    fetchOneUserData 
+const fetchAccountByType = async (reqData) => {
+    try {
+        let type = reqData.type
+        if (type === "lecturer") type = 3
+        if (type === "student") type = 4
+        if (type === "admin") type = 1
+        if (type === "edu") type = 2
+        const data = db.account.findAll({
+            attributes: ['id', 'accountState', 'username'],
+            where: { accountTypeId: type },
+            include: [{
+                model: db.account_info,
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+            }, {
+                model: db.accountType,
+                attributes: ['id', 'typeName']
+            }],
+            nest: false
+        },)
+        return data
+    } catch (e) {
+        console.log(e);
+        return "ERROR"
+    }
+}
+
+module.exports = {
+    getOneUserData,
+    updateData,
+    changePassword,
+    fetchAllUserData,
+    fetchOneUserData,
+    fetchAccountByType
 }

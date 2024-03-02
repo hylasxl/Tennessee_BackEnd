@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            lesson.belongsTo(models.course, {foreignKey:'courseId'})
+            lesson.belongsTo(models.course, { foreignKey: 'courseId' })
             // lesson.belongsTo(models.lecturer_timetable)
         }
     }
@@ -18,10 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         courseId: {
             type: DataTypes.INTEGER,
             references: {
-              model: 'course',
-              key: 'id',
+                model: 'course',
+                key: 'id',
             },
-          },
+        },
         orderofLesson: DataTypes.INTEGER,
         lessonName: DataTypes.STRING,
         lessonDuration: DataTypes.TIME,

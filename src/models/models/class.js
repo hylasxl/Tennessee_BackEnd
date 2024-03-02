@@ -21,22 +21,31 @@ module.exports = (sequelize, DataTypes) => {
       // __class.belongsTo(models.student_timetable)
       // __class.hasMany(models.room_timesheet)
       // __class.hasMany(models.room)
+
+      __class.belongsTo(models.course)
+      __class.belongsTo(models.account_info, {foreignKey: 'lecturerID', as: 'lecturerByAccount'})
     }
   }
   __class.init({
-    courseID: DataTypes.INTEGER,
+    courseId: DataTypes.INTEGER,
     className: DataTypes.STRING,
     orderofClassbyCourse: DataTypes.INTEGER,
     startDate: DataTypes.DATEONLY,
     endDate: DataTypes.DATEONLY,
-    lecturerID: DataTypes.INTEGER,
+    lecturerId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'account_info',
+        key: 'accountId',
+      },
+    },
     maxQuantity: DataTypes.INTEGER,
     currentQuantity: DataTypes.INTEGER,
     classShift: DataTypes.INTEGER,
     description: DataTypes.STRING
   }, {
     sequelize,
-    modelName: '__class',
+    modelName: 'class',
   });
   return __class;
 };
