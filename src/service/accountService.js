@@ -1,5 +1,6 @@
 import db from '../models/models/index'
 import { checkPassword, hashPassword } from './loginService'
+import { Op } from 'sequelize';
 
 const getOneUserData = async (userID) => {
     const ID = userID;
@@ -35,7 +36,6 @@ const updateData = async (reqData) => {
 const changePassword = async (reqData) => {
     try {
         const user = await db.account.findOne({ where: { username: reqData.username } })
-        console.log(user.dataValues);
         const userPassword = user.dataValues.password
         const oldPassword = reqData.oldPassword
         const newPassword = reqData.newPassword
@@ -125,11 +125,13 @@ const fetchAccountByType = async (reqData) => {
     }
 }
 
+
+
 module.exports = {
     getOneUserData,
     updateData,
     changePassword,
     fetchAllUserData,
     fetchOneUserData,
-    fetchAccountByType
+    fetchAccountByType,
 }

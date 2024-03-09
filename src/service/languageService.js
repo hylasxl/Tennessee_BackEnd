@@ -10,7 +10,6 @@ const handleGetAllLanguages = async () => {
                 exclude: ['createdAt', 'updatedAt']
             }
         })
-        console.log(data);
 
         return data
     } catch (e) {

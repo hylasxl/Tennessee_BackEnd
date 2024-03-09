@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   account_info_image.init({
-    accountId: DataTypes.INTEGER,
     imagePath: DataTypes.STRING
   }, {
     sequelize,

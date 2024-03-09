@@ -42,10 +42,14 @@ module.exports = (sequelize, DataTypes) => {
     maxQuantity: DataTypes.INTEGER,
     currentQuantity: DataTypes.INTEGER,
     classShift: DataTypes.INTEGER,
-    description: DataTypes.STRING
+    description: DataTypes.STRING,
+    approveStatus: DataTypes.STRING,
+    requestBy: DataTypes.INTEGER,
+    confirmedBy: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'class',
   });
   return __class;
+
 };

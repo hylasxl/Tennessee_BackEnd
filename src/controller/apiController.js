@@ -7,6 +7,10 @@ import accountService from '../service/accountService'
 import courseService from '../service/courseService'
 import languageService from '../service/languageService'
 import classService from '../service/classService'
+import roomService from '../service/roomService'
+import academicRankService from '../service/academicRankService'
+import lecturerAccountListService from '../service/lecturerAccountListService'
+import studentAccountListService from '../service/studentAccountListService'
 
 const handleLogin = async (req, res) => {
     try {
@@ -51,30 +55,42 @@ const getOneUserData = async (req, res) => {
         })
     } catch (e) {
         return res.status(500).json({
-
+            EM: "An error has occured",
+            EC: 500,
+            DT: ''
         })
     }
 }
 
 
 const getOneUserAccount = async (req, res) => {
-    const data = req.user;
-    const returnedData = {
-        token: data.token,
-        username: data.username,
-        iat: data.iat,
-        exp: data.exp,
-        user: {
-            userId: data.userId,
-            userPermissions: data.userPermissions,
-            userData: data.userData
+    try {
+
+        const data = req.user;
+        // console.log(data);
+        const returnedData = {
+            token: data.token,
+            username: data.username,
+            iat: data.iat,
+            exp: data.exp,
+            user: {
+                userId: data.userId,
+                userPermissions: data.userPermissions,
+                userData: data.userData
+            }
         }
+        return res.status(200).json({
+            EC: 1,
+            EM: 'OK',
+            DT: returnedData
+        })
+    } catch (e) {
+        return res.status(500).json({
+            EC: 500,
+            EM: 'Error',
+            DT: ''
+        })
     }
-    return res.status(200).json({
-        EC: 1,
-        EM: 'OK',
-        DT: returnedData
-    })
 }
 
 
@@ -160,7 +176,6 @@ const fetchAllUser = async (req, res) => {
 const fetchOneUser = async (req, res) => {
     try {
         const username = req.body.username
-        console.log(username);
         const data = await accountService.fetchOneUserData(username)
         if (data === "Error") {
             res.status(500).json({
@@ -187,7 +202,7 @@ const fetchOneUser = async (req, res) => {
 
 const fetchAllCourse = async (req, res) => {
     try {
-        
+
         const data = await courseService.fetchAllCourses()
         // console.log(data);
         // console.log(new Set(data));
@@ -213,9 +228,9 @@ const fetchAllCourse = async (req, res) => {
     }
 }
 
-const getAllLanguages = async (req,res)=>{
+const getAllLanguages = async (req, res) => {
     try {
-        
+
         const data = await languageService.handleGetAllLanguages()
         // console.log(data);
         // console.log(new Set(data));
@@ -241,9 +256,9 @@ const getAllLanguages = async (req,res)=>{
     }
 }
 
-const createCourse = async(req,res)=>{
+const createCourse = async (req, res) => {
     try {
-        const data = await courseService.handleCreateCourse(req.body)
+        const data = await courseService.handleCreateCourse(req)
         if (data === "Error") {
             res.status(500).json({
                 EC: -1,
@@ -266,7 +281,7 @@ const createCourse = async(req,res)=>{
     }
 }
 
-const courseApproval = async(req,res)=>{
+const courseApproval = async (req, res) => {
     try {
         const data = await courseService.courseApproval(req.body)
         if (data === "Error") {
@@ -291,7 +306,7 @@ const courseApproval = async(req,res)=>{
     }
 }
 
-const fetchAllClass = async (req,res) => {
+const fetchAllClass = async (req, res) => {
     try {
         const data = await classService.fetchAllClass()
         if (data === "Error") {
@@ -316,7 +331,7 @@ const fetchAllClass = async (req,res) => {
     }
 }
 
-const fetchAccountByType = async(req,res) => {
+const fetchAccountByType = async (req, res) => {
     try {
         const data = await accountService.fetchAccountByType(req.body)
         if (data === "Error") {
@@ -341,6 +356,175 @@ const fetchAccountByType = async(req,res) => {
     }
 }
 
+const fetchAllRooms = async (req, res) => {
+    try {
+        const data = await roomService.fetchAllRooms()
+
+        if (data === "Error") {
+            res.status(500).json({
+                EC: -1,
+                EM: 'Cannot fetch rooms',
+                DT: ''
+            })
+        } else {
+            res.status(200).json({
+                EC: 1,
+                EM: 'Fetch rooms successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'Cannot fetch rooms',
+            DT: ''
+        })
+    }
+}
+
+const fetchAllAcademicRanks = async (req, res) => {
+    try {
+        const data = await academicRankService.fetchAllAcademicRanks()
+
+        if (data === "Error") {
+            res.status(500).json({
+                EC: -1,
+                EM: 'Cannot fetch academic ranks',
+                DT: ''
+            })
+        } else {
+            res.status(200).json({
+                EC: 1,
+                EM: 'Fetch academic ranks successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'Cannot fetch academic ranks',
+            DT: ''
+        })
+    }
+}
+
+const sendNewStudentAccountRequest = async (req, res) => {
+    try {
+
+        const data = await studentAccountListService.sendNewStudentAccountRequest(req.body)
+        if (data === "Email or Phone has already in use") {
+            return res.status(200).json({
+                EC: 2,
+                EM: 'Email or Phone has already in use',
+                DT: ''
+            })
+        }
+        if (data === "Error") {
+            return res.status(500).json({
+                EC: -1,
+                EM: 'An error has occured',
+                DT: ''
+            })
+        } else {
+            return res.status(200).json({
+                EC: 1,
+                EM: 'Send request successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'An error has occured',
+            DT: ''
+        })
+    }
+}
+
+const sendNewLecturerAccountRequest = async (req, res) => {
+    try {
+        const data = await lecturerAccountListService.sendNewLecturerAccountRequest(req.body)
+        if (data === "Email or Phone has already in use") {
+            return res.status(200).json({
+                EC: 2,
+                EM: 'Email or Phone has already in use',
+                DT: ''
+            })
+        }
+        if (data === "Error") {
+            return res.status(500).json({
+                EC: -1,
+                EM: 'An error has occured',
+                DT: ''
+            })
+        } else {
+            return res.status(200).json({
+                EC: 1,
+                EM: 'Send request successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'An error has occured',
+            DT: ''
+        })
+    }
+}
+
+const fetchAllLecturerAccountList = async (req,res) => {
+    try {
+        const data = await lecturerAccountListService.fetchAllLecturerAccountList()
+        
+        if (data === "Error") {
+            return res.status(500).json({
+                EC: -1,
+                EM: 'An error has occured',
+                DT: ''
+            })
+        } else {
+            return res.status(200).json({
+                EC: 1,
+                EM: 'Fetch data successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'An error has occured',
+            DT: ''
+        })
+    }
+}
+
+const fetchAllStudentAccountList = async (req,res) => {
+    try {
+
+        const data = await studentAccountListService.fetchAllStudentAccountList()
+        if (data === "Error") {
+            return res.status(500).json({
+                EC: -1,
+                EM: 'An error has occured',
+                DT: ''
+            })
+        } else {
+            return res.status(200).json({
+                EC: 1,
+                EM: 'Fetch data successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'An error has occured',
+            DT: ''
+        })
+    }
+}
+
 module.exports = {
     handleLogin,
     getOneUserData,
@@ -355,5 +539,11 @@ module.exports = {
     createCourse,
     courseApproval,
     fetchAllClass,
-    fetchAccountByType
+    fetchAccountByType,
+    fetchAllRooms,
+    fetchAllAcademicRanks,
+    sendNewStudentAccountRequest,
+    sendNewLecturerAccountRequest,
+    fetchAllLecturerAccountList,
+    fetchAllStudentAccountList
 }

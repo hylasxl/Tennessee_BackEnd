@@ -3,21 +3,24 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class course_image extends Model {
+  class class_shift extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // course_image.hasOne(models.course, {foreignKey: 'imageId'})
+      // define association here
     }
   }
-  course_image.init({
-    imagePath: DataTypes.STRING
+  class_shift.init({
+    shiftCode: DataTypes.STRING,
+    startTime: DataTypes.TIME,
+    endTime: DataTypes.TIME,
+    description: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'course_image',
+    modelName: 'class_shift',
   });
-  return course_image;
+  return class_shift;
 };
