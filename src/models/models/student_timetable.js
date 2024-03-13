@@ -20,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     classId: DataTypes.INTEGER,
     orderofLesson: DataTypes.INTEGER,
     date: DataTypes.DATEONLY,
-    timeStart: DataTypes.TIME,
-    timeEnd: DataTypes.TIME,
+    shift: DataTypes.INTEGER,
+    approveStatus: DataTypes.STRING,
     roomId: DataTypes.INTEGER
   }, {
     sequelize,

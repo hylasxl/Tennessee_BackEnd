@@ -10,11 +10,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      
+      class_student_list.belongsTo(models.account_info, { foreignKey: 'studentId', as: 'CSLAI' })
+      class_student_list.belongsTo(models.class, { foreignKey: 'classId' })
     }
   }
   class_student_list.init({
-    studentId: DataTypes.INTEGER,
+    studentId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'account_info',
+        key: 'accountId',
+      },
+    },
     classId: DataTypes.INTEGER
   }, {
     sequelize,

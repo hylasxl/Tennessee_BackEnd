@@ -1,4 +1,3 @@
-import { log } from "console";
 import db from "../models/models/index"
 import { sequelize } from "../models/models/index";
 
@@ -61,56 +60,23 @@ const fetchAllCourses = async () => {
     }
 }
 
-// const handleCreateCourse = async (data) => {
-//     try {
 
-//         console.log(data);
-//         data.lesson = JSON.parse(data.lesson)
-//         const insertId = await db.course.max('id')
-//         const initStatus = "Pending"
-//         let lessonArr = []
-//         for (let index = 0; index < data.lesson.length; index++) {
-//             const description = data.lesson.description || "No description"
-//             const order = data.lesson[index].id
-//             const name = data.lesson[index].data
-//             lessonArr.push({
-//                 courseId: insertId,
-//                 orderofLesson: order,
-//                 lessonName: name,
-//                 lessonDuration: "0" + data.durationofLesson + ":00:00",
-//                 createdBy: +data.userId,
-//                 description: description,
 
-//             })
-//         }
-
-//         data.description = data.description || "No description"
-
-//         sequelize.transaction(async (t) => {
-//             const insert = await db.course.create({
-//                 courseName: data.courseName,
-//                 languageId: data.language,
-//                 duration: data.duration + ":00:00",
-//                 durationofEachLesson: data.durationofLesson + ":00:00",
-//                 price: data.price,
-//                 createdBy: data.userId,
-//                 approvedBy: +JSON.stringify(0),
-//                 approveStatus: initStatus,
-//                 description: data.description,
-//                 lessons: lessonArr,
-//                 imageId: insertId + 1
-//             }, {
-//                 include: [db.lesson],
-//                 transaction: t,
-//             },
-//             )
-//         })
-
-//     } catch (e) {
-//         console.log(e);
-//         return "ERROR"
-//     }
-// }
+const fetchCourseByLanguage = async (data) => {
+    try{
+        const languageId = data.languageId
+        const queryData = await db.course.findAll({
+            where : {
+                languageId: languageId,
+                approveStatus : 'Approved'
+            }
+        })
+        return queryData
+    } catch (e){
+        console.log(e)
+        return "ERROR"
+    }
+}
 
 const handleCreateCourse = async (req) => {
     try {
@@ -215,8 +181,24 @@ const courseApproval = async (data) => {
     }
 }
 
+const countCourseRequest = async(data)=>{
+    try {
+        return await db.course.count({
+            where: {
+                approveStatus: 'Pending'
+            }
+        })
+    }
+    catch (exception) {
+        console.log(exception)
+        return 'ERROR'
+    }
+}
+
 module.exports = {
     fetchAllCourses,
     handleCreateCourse,
-    courseApproval
+    courseApproval,
+    fetchCourseByLanguage,
+    countCourseRequest
 }

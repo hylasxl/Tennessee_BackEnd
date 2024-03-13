@@ -35,10 +35,6 @@ const checkJWTbyCookie = (req, res, next) => {
     if (nonSecurePaths.includes(req.path)) {
         return next()
     }
-    const referrer = req.query.referrer || req.get("Referer")
-    // if(nonSecureURL.includes(referrer)) return next()
-    console.log("Checking token: ", req.path);
-    console.log("Request URL: ", referrer)
     let cookies = req.cookies
     if (cookies && cookies.jwt) {
 
@@ -72,12 +68,6 @@ const checkUserPermission = (req, res, next) => {
     if (nonSecurePaths.includes(req.path)) {
         next()
     }
-    const referrer = req.query.referrer || req.get("Referer")
-    // if(nonSecureURL.includes(referrer)) return next()
-    // if(nonSecureURL.includes(window.location.pathname)) return next()
-    console.log("Checking user permissions: ", req.path);
-    console.log("Request URL: ",referrer)
-
     if (req.user) {
         let username = req.user.username
         let permission = req.user.userPermissions.permissions

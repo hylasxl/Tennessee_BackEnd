@@ -10,24 +10,21 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // __class.belongsToMany(models.accounts, { through: models.academic_transcript })
-      // __class.belongsToMany(models.accounts, { through: models.class_attendance })
-      // __class.belongsToMany(models.accounts, { through: models.student_absence_request })
-      // __class.hasMany(models.academic_transcript)
-      // __class.belongsToMany(models.room, { through: models.class_schedule })
-      // __class.belongsToMany(models.accounts, { through: models.class_student_list })
-      // __class.belongsTo(models.course, { foreignKey: 'courseID' })
-      // __class.belongsTo(models.lecturer_timetable)
-      // __class.belongsTo(models.student_timetable)
-      // __class.hasMany(models.room_timesheet)
-      // __class.hasMany(models.room)
-
       __class.belongsTo(models.course)
       __class.belongsTo(models.account_info, {foreignKey: 'lecturerID', as: 'lecturerByAccount'})
+      __class.belongsTo(models.account_info, {foreignKey: 'requestBy', as: 'requestByAccount'})
+      __class.belongsTo(models.account_info, {foreignKey: 'confirmedBy', as: 'confirmedByAccount'})
+      __class.belongsTo(models.class_shift, {foreignKey: 'classShift', as: 'class_classShift'})
     }
   }
   __class.init({
-    courseId: DataTypes.INTEGER,
+    courseId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'course',
+        key: 'id',
+      },
+    },
     className: DataTypes.STRING,
     orderofClassbyCourse: DataTypes.INTEGER,
     startDate: DataTypes.DATEONLY,
@@ -39,13 +36,33 @@ module.exports = (sequelize, DataTypes) => {
         key: 'accountId',
       },
     },
+    weekdays: DataTypes.STRING,
     maxQuantity: DataTypes.INTEGER,
     currentQuantity: DataTypes.INTEGER,
-    classShift: DataTypes.INTEGER,
+    classShift: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'class_shift',
+        key: 'id',
+      },
+    },
+    operatingStatus: DataTypes.STRING,
     description: DataTypes.STRING,
     approveStatus: DataTypes.STRING,
-    requestBy: DataTypes.INTEGER,
-    confirmedBy: DataTypes.INTEGER
+    requestBy: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'account_info',
+        key: 'accountId',
+      },
+    },
+    confirmedBy: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'account_info',
+        key: 'accountId',
+      },
+    }
   }, {
     sequelize,
     modelName: 'class',

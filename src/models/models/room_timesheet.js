@@ -19,9 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     classId: DataTypes.INTEGER,
     orderofLesson: DataTypes.INTEGER,
     date: DataTypes.DATEONLY,
-    timeStart: DataTypes.TIME,
-    timeEnd: DataTypes.TIME,
-    status: DataTypes.STRING
+    shift: DataTypes.INTEGER,
+    approveStatus: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'room_timesheet',

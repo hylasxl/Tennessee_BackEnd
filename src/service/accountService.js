@@ -17,8 +17,7 @@ const getOneUserData = async (userID) => {
 const updateData = async (reqData) => {
     try {
         let user = await db.account_info.findOne({ where: { accountId: reqData.userId } })
-        let data = await user.update(
-            {
+        let data = await user.update({
                 firstName: reqData.firstName,
                 lastName: reqData.lastName,
                 phone: reqData.phone,

@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     midTermTest: DataTypes.INTEGER,
     finalTest: DataTypes.INTEGER,
     finalResult: DataTypes.INTEGER,
-    tstaus: DataTypes.STRING
+    status: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'academic_transcript',

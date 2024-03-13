@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             lesson.belongsTo(models.course, { foreignKey: 'courseId' })
+            lesson.belongsTo(models.account_info, { foreignKey: 'createdBy', as:'lessonCreatedBy' })
             // lesson.belongsTo(models.lecturer_timetable)
         }
     }
@@ -25,7 +26,13 @@ module.exports = (sequelize, DataTypes) => {
         orderofLesson: DataTypes.INTEGER,
         lessonName: DataTypes.STRING,
         lessonDuration: DataTypes.TIME,
-        createdBy: DataTypes.INTEGER,
+        createdBy: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'account_info',
+                key: 'accountId',
+            },
+        },
         description: DataTypes.STRING,
     }, {
         sequelize,
