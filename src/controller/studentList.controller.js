@@ -178,6 +178,31 @@ const saveStudent = async (req,res) => {
         })
     }
 }
+const sendAbsentRequest = async (req,res) => {
+    try {
+        const data = await studentAccountListService.sendAbsentRequest(req.body)
+       
+        if (data === "Error") {
+            return res.status(500).json({
+                EC: -1,
+                EM: 'An error has occured',
+                DT: ''
+            })
+        } else {
+            return res.status(200).json({
+                EC: 1,
+                EM: 'Fetch successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'An error has occured',
+            DT: ''
+        })
+    }
+}
 
 
 
@@ -187,5 +212,6 @@ module.exports = {
     countStudentRequest,
     studentApprove,
     fetchStudentByClass,
-    saveStudent
+    saveStudent,
+    sendAbsentRequest
 }

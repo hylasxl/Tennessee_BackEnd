@@ -1,9 +1,10 @@
-import db from "../models/models/index";
+import db, { sequelize } from "../models/models/index";
 import { Op } from "sequelize";
 import { getNextAcceptedDays } from "../utils/utils.function";
 
 const fetchAllClass = async (type) => {
     const typeList = []
+    if(!type) typeList.push("Approved","Rejected","Pending")
     if (type !== "Approved") {
         typeList.push("Pending", "Rejected")
     } else {
@@ -168,22 +169,35 @@ const sendNewClassRequest = async (data) => {
             approveStatus: "Pending"
         })
             .then(async (createdClass) => {
+                let lessonList = []
+                const lessonIds = await db.lesson.findAll({
+                    attributes: ['id'],
+                    where: {
+                        courseId: data.courseId
+                    }
+                })
+                lessonIds.forEach((item) => {
+                    lessonList.push(item.id)
+                })
                 await Promise.all(acceptedDays.map(async (days, i) => {
+
+
+
                     await db.lecturer_timetable.create({
                         lecturerId: data.lecturerId,
                         classId: createdClass.id,
-                        lessonId: i + 1,
+                        lessonId: lessonList[i],
                         date: days,
                         shift: data.shift,
                         roomId: constantroomID,
                         approveStatus: 'Pending'
                     })
                     await db.class_schedule.create({
-                        classID: createdClass.id,
+                        classId: createdClass.id,
                         orderofLesson: i + 1,
                         date: days,
                         shift: data.shift,
-                        roomID: constantroomID,
+                        roomId: constantroomID,
                         approveStatus: "Pending",
                     })
                     await db.room_timesheet.create({
@@ -332,7 +346,7 @@ const fetchClassByStudent = async (data) => {
                                     attributes: {
                                         exclude: ['createdAt', 'updatedAt']
                                     },
-        
+
                                 },
                                 {
                                     model: db.language,
@@ -376,7 +390,7 @@ const fetchClassByStudent = async (data) => {
                                 exclude: ['createdAt', 'updatedAt']
                             }
                         }
-        
+
                     ],
                 },
                 {
@@ -388,7 +402,6 @@ const fetchClassByStudent = async (data) => {
                 }
             ]
         }))
-        console.log(returnedData);
         return returnedData
     }
     catch (exception) {
@@ -397,10 +410,117 @@ const fetchClassByStudent = async (data) => {
     }
 }
 
+const fetchClassByLecturer = async (data) => {
+    try {
+        const lecturerId = data.lecturerId
+        const returnedData = await db.class.findAll({
+            where: {
+                lecturerId: lecturerId,
+                approveStatus: 'Approved'
+            },
+            include: [
+                {
+                    model: db.account_info,
+                    as: "lecturerByAccount",
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    }
+                },
+                {
+                    model: db.class_shift,
+                    as: "class_classShift",
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    }
+                },
+                {
+                    model: db.course
+                }
+            ]
+        })
+
+        return returnedData
+
+    }
+    catch (exception) {
+        console.log(exception)
+        return 'ERROR'
+    }
+}
+
+const fetchClassSchedule = async (data) => {
+    try {
+        const classId = data.classId
+        return await db.class_schedule.findAll({
+            where: {
+                classId
+            }
+        })
+    }
+    catch (exception) {
+        console.log(exception)
+        return 'ERROR'
+    }
+}
+
+
+const approveAbsentRequest = async (data) => {
+    try {
+        const type = data.type
+        const request = data.request
+        if (type === "Approve") {
+            await sequelize.transaction(async (t) => {
+                const selectedRequest = await db.student_absence_request.findOne({
+                    where: {
+                        'id': request.id
+                    }
+                })
+                const selectedClassSchdule = await db.class_attendance.findOne({
+                    where: {
+                        classId: request.class.id,
+                        studentId: request.account_info.accountId,
+                        date: request.date,
+                    }
+                })
+
+
+                if (selectedClassSchdule && selectedRequest) {
+                    await selectedClassSchdule.update({
+                        status: 2
+                    }, {
+                        transaction: t
+                    })
+                    await selectedRequest.update({
+                        status: 'Approved'
+                    }, {
+                        transaction: t
+                    })
+                }
+            })
+        } else if (type === "Reject") {
+            const selectedRequest = await db.student_absence_request.findOne({
+                where: {
+                    'id': request.id
+                }
+            })
+            await selectedRequest.update({
+                status: 'Rejected'
+            })
+        }
+        return request
+    }
+    catch (exception) {
+        console.log(exception)
+        return 'ERROR'
+    }
+}
 module.exports = {
     fetchAllClass,
     sendNewClassRequest,
     countRequest,
     classApprove,
-    fetchClassByStudent
+    fetchClassByStudent,
+    fetchClassByLecturer,
+    fetchClassSchedule,
+    approveAbsentRequest
 }

@@ -93,7 +93,6 @@ const updateUserData = async (req, res) => {
         let data = await accountService.updateData(req.body)
         const userData = await db.account_info.findOne({ where: { accountId: req.body.userId } })
         const userPermissions = await getAccountTypewPermissions(req.body)
-        console.log(2);
         let payload = {
             username: req.body.username,
             userPermissions,
@@ -218,6 +217,220 @@ const fetchAccountByType = async (req, res) => {
         })
     }
 }
+const fetchAvatar = async (req, res) => {
+    try {
+        const data = await accountService.fetchAvatar(req.body)
+        if (data === "Error") {
+            res.status(500).json({
+                EC: -1,
+                EM: 'Cannot fetch accounts',
+                DT: ''
+            })
+        } else {
+            res.status(200).json({
+                EC: 1,
+                EM: 'Fetch accounts successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'Cannot fetch accounts',
+            DT: ''
+        })
+    }
+}
+const changeAvatar = async (req, res) => {
+    try {
+        const data = await accountService.changeAvatar(req)
+        if (data === "Error") {
+            res.status(500).json({
+                EC: -1,
+                EM: 'Cannot Change avatar',
+                DT: ''
+            })
+        } else {
+            res.status(200).json({
+                EC: 1,
+                EM: 'Change avatar successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'Cannot Change avatar',
+            DT: ''
+        })
+    }
+}
+
+const addNewHighAccount = async (req, res) => {
+    try {
+
+        const data = await accountService.addNewHighAccount(req.body)
+        if (data === "Email or Phone has already in use") {
+            return res.status(200).json({
+                EC: 2,
+                EM: 'Email or Phone has already in use',
+                DT: ''
+            })
+        }
+        if (data === "Email or Phone has alreay in another request") {
+            return res.status(200).json({
+                EC: 2,
+                EM: 'Email or Phone has alreay in another request',
+                DT: ''
+            })
+        }
+        if (data === "ERROR") {
+            return res.status(500).json({
+                EC: -1,
+                EM: 'An error has occured',
+                DT: ''
+            })
+        } else {
+            return res.status(200).json({
+                EC: 1,
+                EM: 'Send request successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'An error has occured',
+            DT: ''
+        })
+    }
+}
+
+const checkExistMailandPhone = async (req, res) => {
+    try {
+
+        const data = await accountService.checkExistMailandPhone(req.body)
+        if (data === "ERROR") {
+            return res.status(500).json({
+                EC: -1,
+                EM: 'An error has occured',
+                DT: ''
+            })
+        } else {
+            return res.status(200).json({
+                EC: 1,
+                EM: 'Check successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'An error has occured',
+            DT: ''
+        })
+    }
+}
+const sendNewOtp = async (req, res) => {
+    try {
+
+        const data = await accountService.sendNewOtp(req.body)
+        if (data === "ERROR") {
+            return res.status(500).json({
+                EC: -1,
+                EM: 'An error has occured',
+                DT: ''
+            })
+        } else {
+            return res.status(200).json({
+                EC: 1,
+                EM: 'Check successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'An error has occured',
+            DT: ''
+        })
+    }
+}
+const checkOtp = async (req, res) => {
+    try {
+
+        const data = await accountService.checkOtp(req.body)
+        if (data === "ERROR") {
+            return res.status(500).json({
+                EC: -1,
+                EM: 'An error has occured',
+                DT: ''
+            })
+        } else {
+            return res.status(200).json({
+                EC: 1,
+                EM: 'Check successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'An error has occured',
+            DT: ''
+        })
+    }
+}
+const accountChangePassword = async (req, res) => {
+    try {
+
+        const data = await accountService.accountChangePassword(req.body)
+        if (data === "ERROR") {
+            return res.status(500).json({
+                EC: -1,
+                EM: 'An error has occured',
+                DT: ''
+            })
+        } else {
+            return res.status(200).json({
+                EC: 1,
+                EM: 'Check successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'An error has occured',
+            DT: ''
+        })
+    }
+}
+const setENV = async (req, res) => {
+    try {
+
+        const data = await accountService.setENV()
+        if (data === "ERROR") {
+            return res.status(500).json({
+                EC: -1,
+                EM: 'An error has occured',
+                DT: ''
+            })
+        } else {
+            return res.status(200).json({
+                EC: 1,
+                EM: 'Check successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'An error has occured',
+            DT: ''
+        })
+    }
+}
 
 module.exports = {
     handleLogin,
@@ -228,5 +441,13 @@ module.exports = {
     getOneUserAccount,
     changePassword,
     updateUserData,
-    fetchAccountByType
+    fetchAccountByType,
+    fetchAvatar,
+    changeAvatar,
+    addNewHighAccount,
+    checkExistMailandPhone,
+    sendNewOtp,
+    checkOtp,
+    accountChangePassword,
+    setENV
 }

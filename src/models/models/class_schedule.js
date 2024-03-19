@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   class_schedule.init({
-    classID: DataTypes.INTEGER,
+    classId: DataTypes.INTEGER,
     orderofLesson: DataTypes.INTEGER,
     date: DataTypes.DATEONLY,
     shift: DataTypes.INTEGER,

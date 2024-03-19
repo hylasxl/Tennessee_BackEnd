@@ -1,4 +1,4 @@
-import db from "../models/models/index";
+import db, { sequelize } from "../models/models";
 import { Op } from "sequelize";
 import { stringToSlug } from "../utils/utils.function";
 import { v4 as uuidv4 } from 'uuid';
@@ -101,8 +101,6 @@ const countStudentRequest = async () => {
 
 const studentApprove = async (data) => {
     try {
-
-
         if (data.approveType === "Approve") {
             const user = await db.student_account_providing_request.findOne({
                 where: {
@@ -275,18 +273,31 @@ const saveStudent = async (data) => {
             raw: true,
         })
 
-        console.log(classSchedule);
         const returnedData = await db.class_student_list.bulkCreate(studentObjects)
             .then(async () => {
+                let lessonList = []
+                const lessonIds = await db.lesson.findAll({
+                    attributes: ['id'],
+                    where: {
+                        courseId: selectedClass.courseId
+                    },
+                    raw: true
+                })
+                lessonIds.forEach((item) => {
+                    lessonList.push(item.id)
+                })
+                let index = 0
                 studentList.forEach(async (item) => {
-                    let modifiedData = classSchedule.map(({ id, createdAt, updatedAt, ...rest }) => ({ ...rest, studentId: item,classId: classId }));
+                    let modifiedData = classSchedule.map(({ id, createdAt, updatedAt, orderofLesson,
+                        ...rest }) => ({ ...rest, studentId: item, classId: classId, lessonId: lessonList[index++] }));
+                    index = 0
                     await db.student_timetable.bulkCreate(modifiedData)
                 })
 
             })
             .then(async () => {
                 studentList.forEach(async (item) => {
-                    let modifiedData = classSchedule.map(({ id, createdAt, updatedAt, shift, approveStatus, room, ...rest }) => ({ ...rest, studentId: item, status: 0,classId:classId }));
+                    let modifiedData = classSchedule.map(({ id, createdAt, updatedAt, shift, approveStatus, room, ...rest }) => ({ ...rest, studentId: item, status: 0, classId: classId }));
                     let insertData = {
                         classId: classId,
                         studentId: item,
@@ -301,9 +312,9 @@ const saveStudent = async (data) => {
                 })
                 await db.class.update({
                     currentQuantity: selectedClass.currentQuantity + studentList.length
-                },{
-                    where:{
-                        'id':classId
+                }, {
+                    where: {
+                        'id': classId
                     }
                 })
             })
@@ -320,11 +331,37 @@ const saveStudent = async (data) => {
     }
 }
 
+const sendAbsentRequest = async (data) => {
+    try {
+        const absentData = data.absentData
+        console.log(absentData);
+        const result = await sequelize.transaction(async (t) => {
+            await Promise.all(absentData.map(async (item) => {
+                await db.student_absence_request.create({
+                    studentId: item.studentId,
+                    classId: item.classId,
+                    date: item.date,
+                    reason: item.reason,
+                    status: 'Pending'
+                },{
+                    transaction: t
+                })
+            }))
+            return 1
+        })
+    }
+    catch (exception) {
+        console.log(exception)
+        return 'ERROR'
+    }
+}
+
 module.exports = {
     sendNewStudentAccountRequest,
     fetchAllStudentAccountList,
     countStudentRequest,
     studentApprove,
     fetchStudentByClass,
-    saveStudent
+    saveStudent,
+    sendAbsentRequest
 }

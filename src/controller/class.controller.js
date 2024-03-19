@@ -113,6 +113,32 @@ const classApprove = async (req, res) => {
 }
 
 
+const fetchClassByLecturer = async (req, res) => {
+    try {
+        const data = await classService.fetchClassByLecturer(req.body)
+        if (data === "ERROR") {
+            res.status(500).json({
+                EC: -1,
+                EM: 'Cannot Approve',
+                DT: ''
+            })
+            return
+        } else {
+            res.status(200).json({
+                EC: 1,
+                EM: 'Fetch successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'Cannot approve',
+            DT: ''
+        })
+    }
+}
+
 const fetchClassByStudent = async (req, res) => {
     try {
         const data = await classService.fetchClassByStudent(req.body)
@@ -139,6 +165,57 @@ const fetchClassByStudent = async (req, res) => {
     }
 }
 
+const fetchClassSchedule = async (req, res) => {
+    try {
+        const data = await classService.fetchClassSchedule(req.body)
+        if (data === "ERROR") {
+            res.status(500).json({
+                EC: -1,
+                EM: 'Cannot fetch class schedule',
+                DT: ''
+            })
+            return
+        } else {
+            res.status(200).json({
+                EC: 1,
+                EM: 'Fetch class schedule successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'Cannot fetch class schedule',
+            DT: ''
+        })
+    }
+}
+const approveAbsentRequest = async (req, res) => {
+    try {
+        const data = await classService.approveAbsentRequest(req.body)
+        if (data === "ERROR") {
+            res.status(500).json({
+                EC: -1,
+                EM: 'Cannot fetch class schedule',
+                DT: ''
+            })
+            return
+        } else {
+            res.status(200).json({
+                EC: 1,
+                EM: 'Fetch class schedule successfully',
+                DT: data
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            EC: -1,
+            EM: 'Cannot fetch class schedule',
+            DT: ''
+        })
+    }
+}
+
 
 
 
@@ -147,5 +224,8 @@ module.exports = {
     sendNewClassRequest,
     countRequest,
     classApprove,
-    fetchClassByStudent
+    fetchClassByStudent,
+    fetchClassByLecturer,
+    fetchClassSchedule,
+    approveAbsentRequest
 }

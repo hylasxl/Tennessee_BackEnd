@@ -14,7 +14,9 @@ const initStudentListRoute = (app) => {
     router.post('/student-list/student-approve',checkJWTbyCookie,checkUserPermission,studentListController.studentApprove)
     router.post('/student/fetch-by-class',checkJWTbyCookie,checkUserPermission,studentListController.fetchStudentByClass)
     router.post('/student/save-student',checkJWTbyCookie,checkUserPermission,studentListController.saveStudent)
+    router.post('/student/send-absent-request',checkJWTbyCookie,checkUserPermission,studentListController.sendAbsentRequest)
     
+
     return app.use("/api/", router);
 
 }

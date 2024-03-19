@@ -3,6 +3,7 @@ import configViewEngine from "./config/viewEngine";
 import initWebRoutes from "./routes/web";
 require("dotenv").config();
 import connection from "./config/connectDB";
+
 import initAcademicRankRoute from "./routes/academicRank.route";
 import initClassShiftRoute from "./routes/classShift.route";
 import initAccountRoute from "./routes/account.route";
@@ -14,6 +15,9 @@ import initLanguageRoute from "./routes/language.route";
 import initRoomRoute from "./routes/room.route";
 import initLecturerRoute from "./routes/lecturer.route";
 import initLessonRoute from "./routes/lesson.route";
+import initStudentTimeTableRoute from './routes/studentTimetable.route'
+import initLecturerTimeTableRoute from './routes/lecturerTimetable.route'
+
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -40,12 +44,14 @@ initClassShiftRoute(app)
 initAccountRoute(app)
 initStudentListRoute(app)
 initLecturerListRoute(app)
-initCourseRoute(app)
+initCourseRoute(app)    
 initClassRoute(app)
 initLanguageRoute(app)
 initRoomRoute(app)
 initLecturerRoute(app)
 initLessonRoute(app)
+initLecturerTimeTableRoute(app)
+initStudentTimeTableRoute(app)
 
 connection();
 

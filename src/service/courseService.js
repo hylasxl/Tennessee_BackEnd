@@ -82,8 +82,7 @@ const handleCreateCourse = async (req) => {
     try {
 
         const data = JSON.parse(JSON.stringify(req.body));
-        console.log(data);
-        let imagePath = "Default"
+        let imagePath = "DEFAULT"
         if (req && req.file && req.file.path) {
             imagePath = req.file.path
         }

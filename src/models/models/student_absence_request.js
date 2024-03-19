@@ -10,14 +10,26 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      student_absence_request.belongsTo(models.account_info,{foreignKey:'studentId'})
+      student_absence_request.belongsTo(models.class,{foreignKey:'classId'})
     }
   }
   student_absence_request.init({
-    studentId: DataTypes.INTEGER,
-    classId: DataTypes.INTEGER,
-    fromDate: DataTypes.DATEONLY,
-    toDate: DataTypes.DATEONLY,
+    studentId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'account_info',
+        key: 'accountId',
+      },
+    },
+    classId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'class',
+        key: 'id'
+      }
+    },
+    date: DataTypes.DATEONLY,
     reason: DataTypes.STRING,
     status: DataTypes.STRING
   }, {

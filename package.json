@@ -15,6 +15,7 @@
     "body-parse": "^0.1.0",
     "body-parser": "^1.20.2",
     "cloudinary": "^2.0.3",
+    "cls-hooked": "^4.2.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "deep-email-validator": "^0.1.21",

@@ -26,9 +26,15 @@ function getNextAcceptedDays(days, startDate, length) {
   return result;
 }
 
+function addMinutesFromNow(minutes) {
+  let date = new Date();
+  date.setMinutes(date.getMinutes() + +minutes);
+  return date;
+}
 
 
 module.exports = {
   stringToSlug,
-  getNextAcceptedDays
+  getNextAcceptedDays,
+  addMinutesFromNow
 }

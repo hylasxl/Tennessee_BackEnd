@@ -4,6 +4,7 @@ import { stringToSlug } from "../utils/utils.function";
 import { v4 as uuidv4 } from 'uuid';
 import { hashPassword } from './loginService'
 
+const transporter = require('../config/mailService.config')
 const sendNewLecturerAccountRequest = async (data) => {
     try {
         const checkDuplicate = await db.account_info.findAll({
@@ -114,7 +115,7 @@ const countLecturerRequest = async () => {
 
 const lecturerApprove = async (data) => {
     try {
-        
+
         if (data.approveType === "Approve") {
             const user = await db.lecturer_account_providing_request.findOne({
                 where: {
@@ -164,7 +165,7 @@ const lecturerApprove = async (data) => {
                         lecturerId: account.id,
                         academic_levelId: user.academic_levelId
                     })
-                    
+
                 })
                 .then(async () => {
                     const user = await db.lecturer_account_providing_request.findOne({
@@ -186,24 +187,24 @@ const lecturerApprove = async (data) => {
                 <h4>Here is your account infomation, you should change it later</h4><br>
                 <b>Username</b>: ${username}<br>
                 <b>Password</b>: ${password}`,
-                        })
                     })
-                .then(()=>{
+                })
+                .then(() => {
                     return "Successfully"
                 })
-                }
+        }
         if (data.approveType === "Reject") {
-                const user = await db.lecturer_account_providing_request.findOne({
-                    where: {
-                        'id': data.lecturerId
-                    }
-                })
-                const updated = await user.update({
-                    approveStatus: 'Rejected',
-                    confirmedBy: data.currentId
-                })
-                return updated;
-            }
+            const user = await db.lecturer_account_providing_request.findOne({
+                where: {
+                    'id': data.lecturerId
+                }
+            })
+            const updated = await user.update({
+                approveStatus: 'Rejected',
+                confirmedBy: data.currentId
+            })
+            return updated;
+        }
     }
     catch (exception) {
         console.log(exception)

@@ -11,17 +11,30 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // academic_transcript.belongsTo(models.__class,{foreignKey:'classID'})
-      // academic_transcript.belongsTo(models.accounts,{foreignKey:'studentID'})
+      academic_transcript.belongsTo(models.account_info,{foreignKey:'studentId',as:'ATS'})
+      academic_transcript.belongsTo(models.class,{foreignKey:'classId'})
     }
   }
 
   academic_transcript.init({
-    classId: DataTypes.INTEGER,
-    studentId: DataTypes.INTEGER,
-    attendanceRate: DataTypes.INTEGER,
-    midTermTest: DataTypes.INTEGER,
-    finalTest: DataTypes.INTEGER,
-    finalResult: DataTypes.INTEGER,
+    classId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'class',
+        key: 'id'
+      }
+    },
+    studentId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'account_info',
+        key: 'accountId'
+      }
+    },
+    attendanceRate: DataTypes.FLOAT,
+    midTermTest: DataTypes.FLOAT,
+    finalTest: DataTypes.FLOAT,
+    finalResult: DataTypes.FLOAT,
     status: DataTypes.STRING
   }, {
     sequelize,
