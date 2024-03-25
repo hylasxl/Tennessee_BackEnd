@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         key: 'accountId',
       },
     },
-    description: DataTypes.STRING,
+    description: DataTypes.TEXT('long'),
     
   }, {
     sequelize,
