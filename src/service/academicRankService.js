@@ -12,7 +12,7 @@ const fetchAllAcademicRanks = async () => {
         return plainData
     } catch (e) {
         console.log(e);
-        return "ERROR"
+        throw new Error("Error")
     }
 }
 
